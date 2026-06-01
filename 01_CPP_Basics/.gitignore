@@ -1,0 +1,15 @@
+# 1. Ignore absolutely everything by default
+*
+
+# 2. Allow Git to look inside folders (otherwise it ignores your subdirectories entirely)
+!*/
+
+# 3. Whitelist only your source files, markdown notes, and configuration files
+!*.cpp
+!*.h
+!*.hpp
+!*.md
+!.gitignore
+
+# Optional: If you use VS Code tasks/settings, whitelist the .vscode folder
+!/.vscode/
