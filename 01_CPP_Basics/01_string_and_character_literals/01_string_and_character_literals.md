@@ -127,6 +127,8 @@ g++-14 -std=c++23 01_hello_world.cpp -o 01_hello_world
 #### Experiment:
 
 - Adapt the above program (perhaps calling the modified version `01-exp_helloworld.cpp`) to print the new-line character from within the string literal, using the `print()` function instead. Is the output identical?
+    <details>
+    <summary>Program with Explanations</summary>
 
     - **Program**:  [01_exp1_helloworld.cpp](/01_string_and_character_literals/01_exp1_helloworld.cpp).
     - **Answer**: Yes, the output is identical. While `std::print()` does not automatically append a trailing newline like `std::println()` does, manually adding the escape sequence `\n` inside the string literal achieves the exact same output.
@@ -134,9 +136,11 @@ g++-14 -std=c++23 01_hello_world.cpp -o 01_hello_world
     ```plaintext
     Hello, World!
     ```
-
+    </details>
 - Move the using-directive in the original program to within `main()`, and make sure the program still compiles. Does its position within `main()` matter?
-
+    <details>
+    <summary>Program with Explanations</summary>
+    
     - **Program**: [01_exp2_helloworld.cpp](/01_string_and_character_literals/01_exp2_helloworld.cpp)
     - **Answer**: Yes, the position matters. A `using namespace` directive is only active from the line it is declared down to the end of its enclosing block (`}`). Therefore:
         1. It must be placed **before** you call `print()`, or the compiler won't recognize the function.
@@ -145,18 +149,22 @@ g++-14 -std=c++23 01_hello_world.cpp -o 01_hello_world
     ```plaintext
     Hello, World!
     ```
-
+    </details>
 - Now use a using-statement `using std::println;` *instead* of `using namespace std;`. Are there any other changes you need to make to the code?
-
+    <details>
+    <summary>Program with Explanations</summary>
+    
     - **Program**: [01_exp3_helloworld.cpp](/01_string_and_character_literals/01_exp3_helloworld.cpp)
     - **Answer**: No, the rest of the code remains exactly the same. By using `using std::println;`, you explicitly introduce only the `println` function into the scope, which is a safer and cleaner alternative to bringing in the entire `std` namespace.
     - **Output**:
     ```plaintext
     Hello, World!
     ```
-
+    </details>
 - Finally, go back to the version using `println()` and try omitting any `using` statement at all, and prefix the function call with `std::`. Check this code compiles, and then consider whether you prefer this use of *fully qualified* Standard Library entities. Personally, I feel that for new C++ programmers, fully qualified names in code look too similar to each other, making it harder to learn to recognize the individual names. However, you should be aware that having `using namespace std;` in your code does make you look like a beginner to more experienced C++ coders.
-
+    <details>
+    <summary>Program with Explanations</summary>
+    
     - **Program**: [01_exp4_helloworld.cpp](/01_string_and_character_literals/01_exp4_helloworld.cpp)
     - **Does it compile?** Yes, prefixing the function with `std::` allows the program to compile perfectly without any `using` statements.
     - **Explicit (`std::println`):** Cleaner for larger projects because it prevents namespace pollution and explicitly shows where the function originates.
@@ -165,7 +173,7 @@ g++-14 -std=c++23 01_hello_world.cpp -o 01_hello_world
     ```plaintext
     Hello, World!
     ```
-
+    </details>
 ## 2. Special Characters & Escape Sequences
 
 Some characters can't be typed directly into a string. Instead, you use an escape sequence — a backslash `\` followed by a letter or code to represent a single character.
@@ -279,7 +287,9 @@ println("Hello\0 World");   // Only "Hello" is printed! The rest is ignored.
 #### Experiment:
 
 - Modify `01-hellow.cpp` to output each word on a new line indented by one tab-stop, using only one string literal
-
+    <details>
+    <summary>Program with Explanations</summary>
+    
     - **Program**: [01_exp5_helloworld.cpp](/01_string_and_character_literals/01_exp5_helloworld.cpp)
     - .**Explanation:** The single string literal `"Hello,\n\tWorld!"` uses two back-to-back escape sequences to control console formatting without needing separate print statements:
     - **`\n` (Newline):** Instructs the console to break the text stream and move the cursor down to the beginning of the next line immediately after printing the comma.
@@ -289,8 +299,11 @@ println("Hello\0 World");   // Only "Hello" is printed! The rest is ignored.
     Hello,
             World!
     ```
+    </details>
 - Modify the sub-string reading `Hello,` to `Hello\0`, and run the program. Are you surprised by this change?
-
+    <details>
+    <summary>Program with Explanations</summary>
+    
     - **Program:** [01_exp6_helloworld.cpp](/01_string_and_character_literals/01_exp6_helloworld.cpp)  
     - **Explanation:** At first glance, it looks like the second half of the string (`\n\tWorld!`) completely vanished, which can be highly surprising! 
         - **The Null Terminator (`\0`):** In C++, the character code `\0` represents the null character. String literals use this character as a "sentinel" value to mark the absolute end of a string in memory.
@@ -300,7 +313,10 @@ println("Hello\0 World");   // Only "Hello" is printed! The rest is ignored.
     ```plaintext
     Hello
     ```
+    </details>
 - Now go back to the `print()`-using version and try outputting the character literal `\0` at the end instead of `\n`. What do you discover? 
+    <details>
+    <summary>Program with Explanations</summary>
 
     - **Program:** [01_exp7_helloworld.cpp](/01_string_and_character_literals/01_exp7_helloworld.cpp)
     - **Explanation:** You discover that the text prints perfectly fine, but **no newline or line break is created** at the end of the output. Your shell prompt will appear immediately attached to the exclamation point (e.g., `Hello, World!ankit@ankit:`).
@@ -308,7 +324,10 @@ println("Hello\0 World");   // Only "Hello" is printed! The rest is ignored.
     ```plaintext
     Hello, World!
     ```
+    </details>
 - Now try to create a program that can output: `$(USD) £(GBP) €(EUR)` Hint: The Dollar symbol should be on your keyboard, and the Pound and Euro symbols may well be too, but if not use a character picker such as Character Map and a UTF-8 encoding in your editor (and in the console when running your program, remember `chcp 65001` for Windows).
+    <details>
+    <summary>Program with Explanations</summary>
 
     - **Program:** [01_exp8_helloworld.cpp](/01_string_and_character_literals/01_exp8_helloworld.cpp)
     - **Explanation:** Instead of typing or copy-pasting raw symbols—which can easily break depending on an editor's or terminal's default encoding configurations—we use universal **Unicode Escape Sequences** (`\uHHHH`):
@@ -320,15 +339,17 @@ println("Hello\0 World");   // Only "Hello" is printed! The rest is ignored.
     ```plaintext
     $(USD) £(GBP) €(EUR)
     ```
-
+    </details>
 - Use Character Map (or similar) to enter a *pi* symbol into your text editor, and make this program output: `π has the value 3.14159...`
+    <details>
+    <summary>Program with Explanations</summary>
 
     - **Program:** [01_exp9_helloworld.cpp](/01_string_and_character_literals/01_exp9_helloworld.cpp)
     
     - **Explanation:** To guarantee cross-platform compatibility and avoid text-encoding corruption across different environments, we use the explicit 4-digit **Unicode Escape Sequence** for the mathematical pi symbol:
         - **`\u03C0`** represents the lowercase Greek letter Pi (`π`).
         - The compiler resolves `\u03C0` into the proper multi-byte UTF-8 character sequence automatically at compilation time. The standard digits and text (` has the value 3.14159...`) follow it regularly inside the same string literal. 
-
+    </details>
 ## 4. Raw String Literals
 
 Normal string literals interpret backslashes as escape sequences. What if you want a backslash, or many newlines, **without escaping anything**? That's what **raw string literals** are for.
@@ -419,6 +440,8 @@ auto msg = R"(Hello)" R"( World)";   // "Hello World"
   While little hands make vain pretence  
   Our wanderings to guide.
   ```
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_exp10_1_helloworld.cpp](/01_string_and_character_literals/01_exp10_1_helloworld.cpp) or [01_exp10_2_helloworld.cpp](/01_string_and_character_literals/01_exp10_2_helloworld.cpp) (Alternative Approach)
 
     - **Answer:** **Yes, there are multiple ways to achieve this outcome.** We can utilize C++ Raw String Literals (`R"(...)"`), standard escape sequences (`\n\t`), or Compile-Time String Literal Concatenation.
@@ -432,9 +455,10 @@ auto msg = R"(Hello)" R"( World)";   // "Hello World"
   While little hands make vain pretence
           Our wanderings to guide.
   ```
-
+    </details>
 - Now use a (non-raw) string literal for each line and a single call to `print()` with suitable escape characters. Note: it is possible to *concatenate* the string literals without any operator: concatenation of adjacent string literals is automatically performed by the pre-processor.
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_exp11_helloworld.cpp](/01_string_and_character_literals/01_exp11_helloworld.cpp)
     - **Answer:** By wrapping each individual line in its own standard double quotes and placing them adjacent to each other, the C++ preprocessor automatically glues them into one continuous string before compilation. Adding explicit escape characters (`\n` and `\t`) allows us to control the exact layout without needing a raw string literal.
     
@@ -452,9 +476,10 @@ auto msg = R"(Hello)" R"( World)";   // "Hello World"
   While little hands make vain pretence
           Our wanderings to guide.
   ```
-
+    </details>
 - Modify `01-title.cpp` to output the title of your favorite book or film centered on the console window (assume an 80 character fixed width, and change the size of the console window if different).
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_title_exp.cpp](/01_string_and_character_literals/01_title_exp.cpp)
     - **Explanation**: Centering text inside a raw string literal requires working within a fixed horizontal boundary (in this case, 80 character columns):
         - **The Center Alignment Math**: To manually center a line of text, you calculate the number of leading spaces needed using the formula: $\text{spaces} = (80 - \text{length of text}) / 2$.
@@ -469,7 +494,7 @@ auto msg = R"(Hello)" R"( World)";   // "Hello World"
                                   written by
                              THE WACHOWSKIS
   ```
-
+    </details>
 ## 5. Wide Characters
 
 C++ supports multiple character types for different Unicode encodings. This matters when working with non-ASCII text (e.g. emoji, Arabic, Chinese characters).
@@ -617,62 +642,70 @@ Always keep comments in sync with the code they describe.
 #### Experiment: 
 
 - Going back to `01-hellow.cpp` add a single-line comment sequence to the line beginning `println()`. Does this program compile and run?
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_exp12_helloworld.cpp](/01_string_and_character_literals/01_exp12_helloworld.cpp)
     - **Answer:** **Yes, the program compiles and runs flawlessly, but it prints absolutely nothing to the screen.** 
     - **Output:** *(No console output generated)*
-
+    <details>
 - Uncomment this line and use a pair of multi-line delimiters to comment-out the whole of the body of `main()`. Does this program compile and run?
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_exp13_helloworld.cpp](/01_string_and_character_literals/01_exp13_helloworld.cpp)
     - **Answer:** **Yes, the program compiles and runs successfully, but it outputs nothing.**
     - **Output:** *(No console output generated)*
-
+    </details>
 #### 🧪 Practice Exercises
 
 Try these to test your understanding:
 
 1. **Escape challenge:** Write a `println()` call that outputs exactly:  
    `She said "C:\new\text" and left.`
-    
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_ex1_escape.cpp](/01_string_and_character_literals/01_ex1_escape.cpp)
     - **Explanation:** In standard C++ string literals, certain characters carry special meaning. To print a literal double quote without terminating the string early, you must escape it as `\"`. To print a literal backslash without triggering an unintended escape sequence (like `\n` or `\t`), you must double it up as `\\`.
     - **Output:**
   ```plaintext
   She said "C:\new\text" and left.
   ```
-
+    </details>
 2. **Raw string:** Rewrite the above using a raw string literal. Which is cleaner?
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program**: [01_ex2_raw.cpp](/01_string_and_character_literals/01_ex2_raw.cpp)
     - **Explanation:** The **Raw String Literal** (`R"(...)"`) approach is significantly cleaner. It eliminates the "backslash tax" (visual noise caused by repetitive `\\` and `\"`). This drastically reduces the risk of typos and leaves the string fully readable exactly as it will appear in the console terminal.
     - **Output:** 
     ```plaintext
     She said "C:\new\text" and left.
     ```
-
+    </details>
 3. **Unicode:** Output the Euro sign (`€`), Pound sign (`£`), and Pi (`π`) using `\u` escape codes.
-
+    <details>
+    <summary></summary>
     - **Program:** [01_ex3_unicode.cpp](/01_string_and_character_literals/01_ex3_unicode.cpp)
     - **Explanation:** Using `\u` followed by the 4-digit hexadecimal Unicode scalar value tells the compiler to inject the precise multi-byte UTF-8 token sequence. This method makes the code highly portable, preventing symbols from getting corrupted or turned into gibberish if the source code file is opened on a machine configured to an alternative system locale.
     - **Output:** 
     ```plaintext
     € £ π
     ```
-
+    <details>
 4. **Comment bug:** What's wrong with this comment block?
    ```cpp
    /* Outer comment /* inner comment */ still commented? */
    ```
+    <details>
+    <summary>Program with Explanations</summary>
     - **Diagnostic Answer:** This code will trigger a compilation error.
     - **Explanation:** C++, multi-line comments (`/* ... */`) cannot be nested. The compiler’s preprocessor scans left-to-right looking for the very first matching `*/` sequence to shut down the comment state.
 
         - It encounters the `*/` at the end of `inner comment` and terminates the entire comment block right there.
 
         - The text `still commented? */` is left hanging naked in the open file source. The compiler attempts to interpret `still` as a valid C++ keyword or variable, breaking the compilation process immediately.
-
+    </details>
 5. **Concatenation:** Use adjacent string literals (no `+` operator) to print a multi-line poem with 4 lines.
-
+    <details>
+    <summary>Program with Explanations</summary>
     - **Program:** [01_ex5_concat.cpp](/01_string_and_character_literals/01_ex5_concat.cpp)
     - **Explanation:** This relies on compile-time string literal concatenation. If two or more string literals sit next to each other separated only by whitespace, tabs, or source code lines, the C++ preprocessor fuses them together into a single block allocation before compilation. Explicit `\n` tokens must still be injected into each string component to step the runtime cursor down to a new console line.
     - **Output:**
@@ -681,7 +714,7 @@ Try these to test your understanding:
     Sugar is sweet,
     And so are you.
     ```
-
+    </details>
 ## 📚 Key Takeaways
 
 Congratulations! You've completed a comprehensive tour of strings and character literals in Modern C++. Here's what you've mastered:
